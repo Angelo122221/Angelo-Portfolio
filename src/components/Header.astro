@@ -5,7 +5,7 @@ import { Image } from 'astro:assets';
 <header class="flex flex-col md:flex-row gap-8 items-center md:items-start mb-20">
     <div class="w-32 h-32 rounded-full bg-gray-100 border-4 border-white shadow-sm overflow-hidden flex-shrink-0 relative">
         <Image 
-            src="/public/assets/img/grad_pic.jpg" 
+            src="/assets/img/grad_pic.jpg" 
             alt="Keith Angelo Elleso" 
             width={128} 
             height={128} 
@@ -21,7 +21,7 @@ import { Image } from 'astro:assets';
                 </h1>
                 <div class="flex-shrink-0 w-7 h-7 flex items-center justify-center">
                     <Image 
-                        src="/public/assets/img/verified.png" 
+                        src="/assets/img/verified.png" 
                         alt="Verified" 
                         width={28} 
                         height={28} 
@@ -76,7 +76,7 @@ import { Image } from 'astro:assets';
                     {/* Unique badges from your assets/badges folder */}
                     {["computer-hardware-basics", "DA Associate - badge", "ethical hacking", "networking-basics", "operating-systems-basics"].map((badge) => (
                         <Image 
-                            src={`/public/assets/badges/${badge}.png`} 
+                            src={`/assets/badges/${badge}.png`} 
                             alt={badge} 
                             width={40} 
                             height={40} 
@@ -86,7 +86,7 @@ import { Image } from 'astro:assets';
                     {/* Duplicate set for infinite loop effect */}
                     {["computer-hardware-basics", "DA Associate - badge", "ethical hacking", "networking-basics", "operating-systems-basics"].map((badge) => (
                         <Image 
-                            src={`/public/assets/badges/${badge}.png`} 
+                            src={`/assets/badges/${badge}.png`} 
                             alt={badge} 
                             width={40} 
                             height={40} 
