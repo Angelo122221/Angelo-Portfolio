@@ -1,0 +1,19 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; }
+const { title = "Keith Angelo Elleso | Portfolio" } = Astro.props;
+---
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{title}</title>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="max-w-6xl mx-auto px-6 py-12 lg:py-20">
+			<slot />
+		</div>
+	</body>
+</html>

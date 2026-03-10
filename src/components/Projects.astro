@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+
+const projects = [
+    { 
+        title: "SubanenGo", 
+        category: "Full Stack / TypeScript, Tailwind CSS, Node.js", 
+        description: "Language learning platform for the Subanen dialect with interactive lessons.",
+        image: "/assets/projects/SubanenGO.png", 
+        year: "2025",
+        link: "https://subanengo-app.vercel.app/"
+    },
+    { 
+        title: "TUFACOP Bookkeeping System", 
+        category: "Full Stack / Vue, Laravel", 
+        description: "Financial management and report generation system for cooperatives.",
+        image: "/assets/projects/tufacop.png", 
+        year: "2024" 
+    },
+    { 
+        title: "SymptoQuest", 
+        category: "UI Design & System Architecture", 
+        description: "Diagnostic assistance tool focusing on intuitive UI and medical data flow.",
+        image: "/assets/projects/symptoquest.png", 
+        year: "2023" 
+    }
+];
+---
+
+<section class="space-y-8">
+    <h3 class="text-lg font-bold uppercase tracking-tighter">Recent Projects</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map(p => (
+            <div class="group relative">
+                <div class="aspect-video bg-gray-100 rounded-xl overflow-hidden mb-4 relative">
+                    <Image 
+                        src={p.image} 
+                        alt={p.title}
+                        width={800}
+                        height={450}
+                        class="w-full h-full object-cover" 
+                    />
+                    
+                    <div class="absolute inset-0 bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center p-6 z-20">
+                        <p class="text-[#bef264] text-[10px] font-mono mb-2 uppercase tracking-widest">Project Info</p>
+                        <p class="text-white text-xs leading-relaxed">{p.description}</p>
+                    </div>
+
+                    <span class="absolute top-2 right-2 bg-black/80 text-[9px] text-white px-2 py-1 rounded font-mono z-10">
+                        {p.year}
+                    </span>
+                </div>
+                
+                <div class="space-y-1">
+                    <h4 class="font-bold text-sm uppercase">
+                        {p.link ? (
+                            <a href={p.link} target="_blank" rel="noopener noreferrer" class="hover:underline decoration-gray-400 underline-offset-4">
+                                {p.title} ↗
+                            </a>
+                        ) : (
+                            p.title
+                        )}
+                    </h4>
+                    <p class="text-[11px] text-gray-400 font-medium italic leading-none">
+                        {p.category}
+                    </p>
+                </div>
+            </div>
+        ))}
+
+        <button 
+            id="open-projects-modal"
+            class="aspect-video bg-black rounded-xl flex flex-col items-center justify-center group hover:bg-zinc-900 transition-colors"
+        >
+            <span class="text-white font-bold text-[10px] uppercase tracking-[0.2em] mb-2">View More Projects</span>
+            <span class="text-[#bef264] text-xl group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+    </div>
+</section>
+
+<div id="projects-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" id="modal-overlay"></div>
+    <div class="absolute right-0 top-0 h-full w-full max-w-xl bg-white p-10 shadow-2xl overflow-y-auto">
+        <button id="close-modal" class="absolute top-8 right-8 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black">
+            [ Close ]
+        </button>
+        <h2 class="text-xl font-bold uppercase tracking-tighter mb-10">Archive</h2>
+        <div class="space-y-8">
+            <p class="text-sm text-gray-500 font-mono">Full project catalog loading...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('projects-modal');
+    const openBtn = document.getElementById('open-projects-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const overlay = document.getElementById('modal-overlay');
+
+    openBtn?.addEventListener('click', () => {
+        modal?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+
+    const closeModal = () => {
+        modal?.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    };
+
+    closeBtn?.addEventListener('click', closeModal);
+    overlay?.addEventListener('click', closeModal);
+</script>

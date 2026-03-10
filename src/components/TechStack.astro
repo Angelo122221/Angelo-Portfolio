@@ -1,0 +1,100 @@
+---
+const categories = [
+    { title: "Frontend", skills: ["JavaScript", "TypeScript", "React", "Next.js", "Vue.js", "Tailwind CSS", "Vite"] },
+    { title: "Backend", skills: ["Node.js", "Python", "PHP", "Laravel", "PostgreSQL", "MySQL", "MongoDB"] },
+    { title: "Tools & Cloud", skills: ["Git", "GitHub", "Docker", "AWS", "GCP", "VS Code", "Postman", "Vercel", "Netlify"] },
+    { title: "AI & Data", skills: ["TensorFlow", "OpenAI", "Pandas", "NumPy", "Scikit-learn"] },
+    { title: "Security", skills: ["JWT", "OAuth", "Auth0", "AES", "RSA"] },
+    { title: "CMS", skills: ["WordPress", "Strapi", "Webflow"] },
+    { title: "Management", skills: ["JIRA", "Trello", "Slack", "Discord"] }
+];
+
+const previewCategories = categories.slice(0, 3);
+---
+
+<section class="space-y-6">
+    <div class="flex items-center justify-between h-7">
+        <h3 class="text-lg font-bold uppercase tracking-tighter leading-none">Tech Stack</h3>
+        <button id="open-tech-modal" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors">
+            [ View All ]
+        </button>
+    </div>
+
+    <div class="relative bg-white border border-gray-200 ring-1 ring-black/5 rounded-2xl p-6 md:p-8 space-y-8 shadow-sm overflow-hidden">
+        
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
+             style="background-image: radial-gradient(#000 1px, transparent 0); background-size: 20px 20px;">
+        </div>
+
+        {previewCategories.map(cat => (
+            <div class="relative z-10">
+                <h4 class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                    {cat.title}
+                    <span class="h-[1px] flex-1 bg-gray-100"></span>
+                </h4>
+                <div class="flex flex-wrap gap-2">
+                    {cat.skills.slice(0, 8).map(skill => (
+                        <span class="px-3 py-1 bg-gray-50 border border-gray-200 rounded-md text-[11px] font-bold text-gray-700 shadow-sm hover:border-black transition-colors cursor-default">
+                            {skill}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <div id="tech-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-6">
+        <div class="w-full max-w-4xl max-h-[85vh] overflow-y-auto bg-white border border-gray-200 shadow-2xl p-8 md:p-12 relative rounded-3xl">
+            <div class="flex justify-between items-center mb-12 sticky top-0 bg-white/90 backdrop-blur-sm pb-4 z-10 border-b border-gray-100">
+                <h2 class="text-xl font-bold uppercase tracking-tighter">Technical Inventory</h2>
+                <button id="close-tech-modal" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black">
+                    [ Close ]
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                {categories.map(cat => (
+                    <div class="space-y-4">
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em]">{cat.title}</h4>
+                        <div class="flex flex-wrap gap-2">
+                            {cat.skills.map(skill => (
+                                <div class="px-3 py-1.5 bg-white border border-gray-200 text-[11px] font-bold text-gray-600 hover:border-black hover:text-black transition-all cursor-default shadow-sm rounded-lg">
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const openBtn = document.getElementById('open-tech-modal');
+    const closeBtn = document.getElementById('close-tech-modal');
+    const modal = document.getElementById('tech-modal');
+
+    const openModal = () => {
+        modal?.classList.remove('hidden');
+        modal?.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    };
+
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>

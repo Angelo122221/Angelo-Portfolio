@@ -1,17 +1,35 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TechStack from '../components/TechStack.astro';
+import Projects from '../components/Projects.astro';
+import Experience from '../components/Experience.astro';
+import AnimatedCard from '../components/AnimatedCard.astro';
+import Certificates from '../components/Certificates.astro'; // [NEW IMPORT]
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <Header />
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <div class="lg:col-span-8 space-y-20">
+                <Hero />
+                <TechStack />
+                <Projects />
+            </div>
+
+            <div class="lg:col-span-4 space-y-12">
+                <div class="flex justify-center lg:justify-end w-full">
+                    <div class="w-full max-w-[380px]">
+                        <AnimatedCard />
+                    </div>
+                </div>
+                <Experience />
+                <Certificates /> </div>
+            
+        </div>
+    </div>
+</Layout>

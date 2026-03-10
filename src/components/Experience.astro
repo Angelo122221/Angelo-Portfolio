@@ -1,0 +1,50 @@
+---
+const jobs = [
+    { role: "Web Developer", company: "DepEd Event Documentation Project", year: "2026" },
+    { role: "Video Editor", company: "Freelance", year: "2026" },
+    { role: "Sales Analyst", company: "HBO Ventures", year: "2025" },
+    { role: "Backend Developer", company: "Loan & Bookkeeping System", year: "2025" },
+    { role: "Full-Stack Developer", company: "POS & Inventory System Project", year: "2025" },
+    { role: "System Developer", company: "Academic Software Projects", year: "2025" },
+    { role: "Data Analyst", company: "Peroptyx", year: "2025" },
+    { role: "Data & Database Developer", company: "Reports and Data Analysis Projects", year: "2025" },
+    { role: "Infomedia", company: "La Salle University CCSEA", year: "2024" },
+    { role: "Project Developer", company: "SubanenGo Language Learning App", year: "2024" },
+    { role: "Software Developer", company: "Freelance", year: "2024" },
+    { role: "AI Training Contributor", company: "Outlier", year: "2023" },
+    { role: "Hello World! 👋", company: "Wrote my first line of code", year: "2022" }
+];
+---
+
+<section class="space-y-6 border-l border-gray-100 pl-6">
+    <div class="h-6 flex items-center">
+        <h3 class="text-sm font-black uppercase tracking-widest leading-none text-gray-400">Experience</h3>
+    </div>
+    
+    <div class="relative">
+        <div class="absolute left-[4px] top-2 bottom-2 w-[1px] bg-gray-100"></div>
+
+        <div class="space-y-0">
+            {jobs.map((j, index) => (
+                <div class="relative pl-6 pb-5 last:pb-0 group">
+                    <div class={`absolute left-0 top-1 w-2.5 h-2.5 border-[1.5px] border-black z-10 transition-colors duration-300 ${index === 0 ? 'bg-black' : 'bg-white'}`}></div>
+                    
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-2">
+                        <div class="space-y-0">
+                            <h4 class="text-[11px] font-bold text-gray-800 leading-tight uppercase tracking-tight">
+                                {j.role}
+                            </h4>
+                            <p class="text-[10px] text-gray-400 font-medium italic leading-none">
+                                {j.company}
+                            </p>
+                        </div>
+                        
+                        <div class="text-[8px] font-mono font-bold text-gray-300 uppercase tracking-[0.2em] self-start md:mt-0.5">
+                            {j.year}
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>

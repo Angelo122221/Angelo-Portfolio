@@ -1,0 +1,138 @@
+---
+import { Image } from 'astro:assets';
+
+const certs = [
+    { 
+        title: "Getting Started with AWS Security Hub", 
+        issuer: "AWS | Simplilearn", 
+        date: "FEB 2026", 
+        image: "/assets/certificates/AwsSecurityHub.png" 
+    },
+    { 
+        title: "Associate Data Analyst", 
+        issuer: "DataCamp", 
+        date: "MAR 2025", 
+        image: "/assets/certificates/DataAnalystAssociate.png" 
+    },
+    { 
+        title: "JavaScript Algorithms and Data Structures", 
+        issuer: "freeCodeCamp", 
+        date: "MAR 2025", 
+        image: "/assets/certificates/JavaScriptAlgo.png" 
+    },
+    { 
+        title: "Responsive Web Design", 
+        issuer: "freeCodeCamp", 
+        date: "MAR 2025", 
+        image: "/assets/certificates/ResponsiveWebDesign.png" 
+    },
+    { 
+        title: "Networking Basics", 
+        issuer: "Cisco Networking Academy", 
+        date: "JUN 2025", 
+        image: "/assets/certificates/NetworkingBasics.png" 
+    },
+    { 
+        title: "Operating Systems Basics", 
+        issuer: "Cisco Networking Academy", 
+        date: "JUN 2025", 
+        image: "/assets/certificates/OperatingSystemsBasics.png" 
+    },
+    { 
+        title: "Computer Hardware Basics", 
+        issuer: "Cisco Networking Academy", 
+        date: "JUN 2025", 
+        image: "/assets/certificates/ComputerHardwareBasics.png" 
+    },
+    { 
+        title: "Project Management Foundations", 
+        issuer: "LinkedIn Learning", 
+        date: "APR 2025", 
+        image: "/assets/certificates/ProjectManagementFoundation.png" 
+    }
+];
+---
+
+<section class="space-y-6">
+    <div class="h-7 flex items-center">
+        <h3 class="text-sm font-black uppercase tracking-widest leading-none text-gray-400 text-[11px]">Certifications</h3>
+    </div>
+
+    <div class="relative bg-white border border-gray-200 ring-1 ring-black/5 rounded-2xl p-6 shadow-sm overflow-hidden aspect-square flex flex-col justify-center w-full group">
+        
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
+             style="background-image: radial-gradient(#000 1px, transparent 0); background-size: 15px 15px;">
+        </div>
+
+        <div class="absolute bottom-4 right-0 left-0 flex justify-center gap-1.5 z-20" id="cert-indicators">
+            {certs.map((_, i) => (
+                <div 
+                    class={`indicator h-1 rounded-full transition-all duration-500 ${i === 0 ? 'bg-black w-4' : 'bg-gray-200 w-1'}`}
+                ></div>
+            ))}
+        </div>
+
+        <div class="relative h-full w-full">
+            {certs.map((cert, index) => (
+                <div 
+                    class={`cert-slide absolute inset-0 flex flex-col items-center justify-center text-center gap-6 transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${index === 0 ? 'opacity-100 translate-y-0 scale-100 rotate-0' : 'opacity-0 translate-y-12 scale-90 rotate-[-5deg] pointer-events-none'}`}
+                >
+                    <div class="w-full aspect-video rounded-lg bg-gray-50 border border-gray-100 overflow-hidden shadow-sm relative z-10">
+                        <Image 
+                            src={cert.image} 
+                            alt={cert.title} 
+                            width={400} 
+                            height={225} 
+                            class="w-full h-full object-cover" 
+                        />
+                    </div>
+
+                    <div class="space-y-2 relative z-10 px-2">
+                        <div class="text-[8px] font-mono font-bold text-[#bef264] bg-black px-1.5 py-0.5 rounded w-fit mx-auto uppercase tracking-widest">
+                            {cert.date}
+                        </div>
+                        <h4 class="text-[12px] font-extrabold text-gray-900 uppercase tracking-tight leading-tight">
+                            {cert.title}
+                        </h4>
+                        <p class="text-[10px] text-gray-400 italic leading-none font-medium">
+                            {cert.issuer}
+                        </p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<script>
+    function initCertSlider() {
+        const slides = document.querySelectorAll('.cert-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        if (slides.length === 0 || indicators.length === 0) return;
+
+        let currentIndex = 0;
+
+        function showNextSlide() {
+            slides[currentIndex].classList.remove('opacity-100', 'translate-y-0', 'scale-100', 'rotate-0');
+            slides[currentIndex].classList.add('opacity-0', 'translate-y-12', 'scale-90', 'rotate-[-5deg]', 'pointer-events-none');
+            
+            indicators[currentIndex].classList.remove('bg-black', 'w-4');
+            indicators[currentIndex].classList.add('bg-gray-200', 'w-1');
+
+            currentIndex = (currentIndex + 1) % slides.length;
+
+            slides[currentIndex].classList.remove('opacity-0', 'translate-y-12', 'scale-90', 'rotate-[-5deg]', 'pointer-events-none');
+            slides[currentIndex].classList.add('opacity-100', 'translate-y-0', 'scale-100', 'rotate-0');
+            
+            indicators[currentIndex].classList.remove('bg-gray-200', 'w-1');
+            indicators[currentIndex].classList.add('bg-black', 'w-4');
+        }
+
+        const intervalId = setInterval(showNextSlide, 5000);
+        document.addEventListener('astro:before-swap', () => clearInterval(intervalId), { once: true });
+    }
+
+    initCertSlider();
+    document.addEventListener('astro:after-swap', initCertSlider);
+</script>

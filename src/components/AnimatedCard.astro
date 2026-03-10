@@ -1,0 +1,163 @@
+---
+// src/components/AnimatedCard.astro
+---
+<div id="card-container" class="perspective-container aspect-[4/5] relative mb-12 group cursor-pointer">
+    <div id="interactive-card" class="w-full h-full relative transition-shadow duration-300 preserve-3d">
+        
+        <div class="card-face card-front bg-[#1a1a1a] rounded-2xl p-7 text-white shadow-xl overflow-hidden border border-white/10 flex flex-col">
+            <div id="card-glare-front" class="glare-effect"></div>
+            
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+
+            <div class="relative z-10 flex justify-between items-start mb-4">
+                <div>
+                    <div class="text-2xl font-bold italic tracking-tighter text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.4)]">>_</div>
+                    <p class="text-[8px] font-mono opacity-40 uppercase tracking-[0.2em] mt-1">Portfolio v4.0</p>
+                </div>
+                <div class="text-[9px] font-bold text-[#bef264] border border-[#bef264]/30 px-2 py-1 rounded-sm">2026</div>
+            </div>
+
+            <div class="relative z-10 flex-grow w-full rounded-lg bg-gray-900 border border-white/5 overflow-hidden shadow-inner mb-5">
+                <img src="assets/img/grad_pic.jpg" alt="Keith Angelo" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+            </div>
+
+            <div class="relative z-10 pt-4 border-t border-white/10 pb-2">
+                <p class="text-[9px] font-mono text-[#bef264]/60 uppercase tracking-widest mb-1.5">Candidate for Graduation</p>
+                <h2 class="text-lg md:text-xl font-bold tracking-wide text-[#bef264] uppercase leading-tight break-words">
+                    Keith Angelo Elleso
+                </h2>
+            </div>
+        </div>
+
+        <div class="card-face card-back bg-[#fdfdfd] rounded-2xl p-8 text-[#1a1a1a] shadow-xl overflow-hidden border border-black/5 flex flex-col items-center justify-between text-center">
+            <div id="card-glare-back" class="glare-effect"></div>
+            
+            <div class="relative z-10 w-full flex flex-col items-center pt-2">
+                <div class="w-40 h-40">
+                    <img 
+                        src="assets/img/lsu_logo.png" 
+                        alt="LSU Logo" 
+                        class="w-full h-full object-contain drop-shadow-sm" 
+                    />
+                </div>
+            </div>
+
+            <div class="relative z-10 w-full space-y-1">
+                <h4 class="font-bold uppercase tracking-tight text-xl leading-none">La Salle University</h4>
+                <p class="text-[10px] font-bold text-[#65a30d] uppercase tracking-[0.35em]">Ozamiz City</p>
+            </div>
+
+            <div class="relative z-10 w-full">
+                <div class="border-t border-black/10 pt-5 mb-4">
+                    <p class="text-[9px] font-mono text-gray-400 uppercase tracking-[0.2em] mb-2 text-center">Verified Credential</p>
+                    <p class="text-[14px] font-bold uppercase tracking-tight leading-tight">
+                        Bachelor of Science in<br/>
+                        <span class="text-[#65a30d]">Information Technology</span>
+                    </p>
+                </div>
+                
+                <div class="inline-block bg-[#bef264]/20 px-4 py-1.5 rounded-full border border-[#bef264]/30">
+                    <p class="font-mono text-[9px] text-[#4d7c0f] font-bold tracking-tighter uppercase">
+                        ID: 2026-KE-01
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .perspective-container {
+        perspective: 1500px;
+    }
+    
+    .preserve-3d {
+        transform-style: preserve-3d;
+    }
+
+    .card-face {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .card-back {
+        transform: rotateY(180deg);
+    }
+
+    .glare-effect {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 5;
+        transition: opacity 0.5s;
+    }
+    
+    .group:hover .glare-effect {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+
+    const card = document.querySelector("#interactive-card") as HTMLElement;
+    const container = document.querySelector("#card-container") as HTMLElement;
+    const glares = document.querySelectorAll(".glare-effect");
+
+    let isFlipped = false;
+
+    if (card && container) {
+        container.addEventListener("mousemove", (e: MouseEvent) => {
+            const rect = container.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+
+            let rotateY = (x - 0.5) * 30;
+            let rotateX = (y - 0.5) * -30;
+
+            if (isFlipped) rotateY += 180;
+
+            glares.forEach(glare => {
+                (glare as HTMLElement).style.setProperty('--x', `${x * 100}%`);
+                (glare as HTMLElement).style.setProperty('--y', `${y * 100}%`);
+            });
+
+            gsap.to(card, {
+                rotateY: rotateY,
+                rotateX: rotateX,
+                scale: 1.05,
+                duration: 0.4,
+                ease: "power2.out",
+                overwrite: "auto"
+            });
+        });
+
+        container.addEventListener("mouseleave", () => {
+            gsap.to(card, {
+                rotateY: isFlipped ? 180 : 0,
+                rotateX: 0,
+                scale: 1,
+                duration: 1.2,
+                ease: "elastic.out(1, 0.5)",
+                overwrite: "auto"
+            });
+        });
+
+        container.addEventListener("click", () => {
+            isFlipped = !isFlipped;
+            gsap.to(card, {
+                rotateY: isFlipped ? 180 : 0,
+                duration: 0.8,
+                ease: "back.out(1.4)",
+                overwrite: "auto"
+            });
+        });
+    }
+</script>

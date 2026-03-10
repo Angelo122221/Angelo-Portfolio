@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+// If moving images to src/assets, import them like this:
+// import verified from '../assets/img/verified.png';
+---
+
+<header class="flex flex-col md:flex-row gap-8 items-center md:items-start mb-20">
+    <div class="w-32 h-32 rounded-full bg-gray-100 border-4 border-white shadow-sm overflow-hidden flex-shrink-0 relative">
+        <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center text-white text-2xl font-bold text-center">
+            KE
+        </div>
+    </div>
+    
+    <div class="flex-1 space-y-4 text-center md:text-left min-w-0">
+        <div class="space-y-1">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+                <h1 class="text-3xl font-bold tracking-tight uppercase">
+                    Keith Angelo Elleso
+                </h1>
+                <div class="flex-shrink-0 w-7 h-7 flex items-center justify-center">
+                    <Image 
+                        src="/assets/img/verified.png" 
+                        alt="Verified" 
+                        width={28} 
+                        height={28} 
+                        class="w-full h-full object-contain" 
+                    />
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs font-mono uppercase tracking-[0.2em]">
+                ⚲ Ozamiz City, Philippines
+            </p>
+        </div>
+        
+        <p class="font-medium text-gray-600 max-w-2xl mx-auto md:mx-0 text-sm">
+            Software Developer / Project Manager / Data Analyst
+        </p>
+        
+        <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
+            <a href="mailto:keithangelo.elleso03@gmail.com" class="bg-[#1a1a1a] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-green-600 transition-all duration-300 shadow-sm h-[42px] flex items-center">
+                ✉ Send Email
+            </a>
+            <a href="https://github.com/Angelo122221" target="_blank" class="border border-gray-200 px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm text-gray-500 h-[42px] flex items-center">
+                GitHub
+            </a>
+            <a href="https://www.instagram.com/damn_angelou/" target="_blank" class="border border-gray-200 px-6 py-2.5 rounded-lg text-sm font-medium hover:border-pink-200 hover:text-pink-600 transition shadow-sm text-gray-500 h-[42px] flex items-center">
+                Instagram
+            </a>
+        </div>
+    </div>
+
+    <div class="hidden xl:flex flex-col justify-end w-full max-w-[320px] h-[140px] self-end space-y-2">
+        <div class="bg-[#1a1a1a] border border-white/10 rounded-xl h-10 overflow-hidden relative shadow-lg">
+            <div class="animate-vertical-scroll">
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#bef264] uppercase tracking-[0.2em] whitespace-nowrap">
+                    3rd Place DOST Innovation Jam
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-white uppercase tracking-[0.2em] whitespace-nowrap">
+                    Full-Stack System Architect
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#65a30d] uppercase tracking-[0.2em] whitespace-nowrap">
+                    Certified Associate Data Analyst
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#bef264] uppercase tracking-[0.2em] whitespace-nowrap">
+                    Philnits IT Passport Passer
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#bef264] uppercase tracking-[0.2em] whitespace-nowrap">
+                    Best In Capstone
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#bef264] uppercase tracking-[0.2em] whitespace-nowrap">
+                    DOST NSTW Presenter
+                </span>
+                <span class="h-10 flex items-center justify-center text-[9px] font-bold text-[#bef264] uppercase tracking-[0.2em] whitespace-nowrap">
+                    3rd Place DOST Innovation Jam
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-[#fdfdfd] border border-black/5 rounded-2xl overflow-hidden h-24 relative shadow-sm flex flex-col justify-center">
+            <div class="relative w-full overflow-hidden h-14">
+                <div class="flex items-center h-full animate-carousel gap-12 px-8">
+                    {["computer-hardware-basics", "DA Associate - badge", "ethical hacking", "networking-basics", "operating-systems-basics"].map((badge) => (
+                        <Image 
+                            src={`/assets/badges/${badge}.png`} 
+                            alt={badge} 
+                            width={40} 
+                            height={40} 
+                            class="h-10 w-auto object-contain" 
+                        />
+                    ))}
+                    {/* Duplicates for carousel loop */}
+                    {["computer-hardware-basics", "DA Associate - badge", "ethical hacking"].map((badge) => (
+                        <Image 
+                            src={`/assets/badges/${badge}.png`} 
+                            alt={badge} 
+                            width={40} 
+                            height={40} 
+                            class="h-10 w-auto object-contain" 
+                        />
+                    ))}
+                </div>
+            </div>
+            <div class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#fdfdfd] to-transparent pointer-events-none"></div>
+            <div class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#fdfdfd] to-transparent pointer-events-none"></div>
+        </div>
+    </div>
+</header>
+
+<style>
+    /* Keyframes unchanged - ensure vertical scroll reset matches the 7th item (240px) */
+    .animate-carousel {
+        display: flex;
+        width: max-content;
+        animation: scroll-x 20s linear infinite;
+    }
+    @keyframes scroll-x {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    .animate-vertical-scroll {
+        display: flex;
+        flex-direction: column;
+        animation: scroll-y 18s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes scroll-y {
+        0%, 14% { transform: translateY(0); }
+        16%, 30% { transform: translateY(-40px); }
+        32%, 46% { transform: translateY(-80px); }
+        48%, 62% { transform: translateY(-120px); }
+        64%, 78% { transform: translateY(-160px); }
+        80%, 94% { transform: translateY(-200px); }
+        100% { transform: translateY(-240px); }
+    }
+</style>
