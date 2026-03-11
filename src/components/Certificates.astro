@@ -54,47 +54,49 @@ const certs = [
 ---
 
 <section class="space-y-6">
-    <div class="h-7 flex items-center">
-        <h3 class="text-sm font-black uppercase tracking-widest leading-none text-gray-400 text-[11px]">Certifications</h3>
+    <div class="flex items-center gap-4">
+        <h3 class="text-[11px] font-black uppercase tracking-[0.4em] text-gray-400">Certifications</h3>
+        <div class="h-[2px] flex-grow bg-gray-100 rounded-full"></div>
     </div>
 
-    <div class="relative bg-white border border-gray-200 ring-1 ring-black/5 rounded-2xl p-6 shadow-sm overflow-hidden aspect-square flex flex-col justify-center w-full group">
-        
-        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
-             style="background-image: radial-gradient(#000 1px, transparent 0); background-size: 15px 15px;">
+    <div 
+        id="cert-slider"
+        class="relative bg-white border border-gray-100 rounded-[32px] p-10 overflow-hidden aspect-[4/5] flex flex-col justify-center w-full group cursor-pointer active:scale-[0.98] transition-all duration-500 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.15)]"
+    >
+        <div class="absolute inset-0 opacity-[0.015] pointer-events-none" 
+             style="background-image: radial-gradient(#000 1.2px, transparent 0); background-size: 24px 24px;">
         </div>
 
-        <div class="absolute bottom-4 right-0 left-0 flex justify-center gap-1.5 z-20" id="cert-indicators">
+        <div class="absolute bottom-8 right-0 left-0 flex justify-center gap-2.5 z-20">
             {certs.map((_, i) => (
-                <div 
-                    class={`indicator h-1 rounded-full transition-all duration-500 ${i === 0 ? 'bg-black w-4' : 'bg-gray-200 w-1'}`}
-                ></div>
+                <div class={`cert-dot h-1.5 rounded-full transition-all duration-500 ${i === 0 ? 'bg-black w-6' : 'bg-gray-200 w-1.5'}`}></div>
             ))}
         </div>
 
-        <div class="relative h-full w-full">
+        <div class="relative h-[90%] w-full">
             {certs.map((cert, index) => (
                 <div 
-                    class={`cert-slide absolute inset-0 flex flex-col items-center justify-center text-center gap-6 transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${index === 0 ? 'opacity-100 translate-y-0 scale-100 rotate-0' : 'opacity-0 translate-y-12 scale-90 rotate-[-5deg] pointer-events-none'}`}
+                    class={`cert-item absolute inset-0 flex flex-col items-center justify-center text-center gap-8 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] 
+                    ${index === 0 ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}
                 >
-                    <div class="w-full aspect-video rounded-lg bg-gray-50 border border-gray-100 overflow-hidden shadow-sm relative z-10">
+                    <div class="w-full aspect-[4/3] rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden shadow-md relative z-10">
                         <Image 
                             src={cert.image} 
                             alt={cert.title} 
-                            width={400} 
-                            height={225} 
-                            class="w-full h-full object-cover" 
+                            width={500} 
+                            height={375} 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                         />
                     </div>
 
-                    <div class="space-y-2 relative z-10 px-2">
-                        <div class="text-[8px] font-mono font-bold text-[#bef264] bg-black px-1.5 py-0.5 rounded w-fit mx-auto uppercase tracking-widest">
+                    <div class="space-y-4 relative z-10 px-4">
+                        <span class="inline-block text-[10px] font-mono font-black text-black bg-[#bef264] px-3 py-1 rounded uppercase tracking-widest border border-black/5">
                             {cert.date}
-                        </div>
-                        <h4 class="text-[12px] font-extrabold text-gray-900 uppercase tracking-tight leading-tight">
+                        </span>
+                        <h4 class="text-[16px] font-black text-gray-950 uppercase tracking-tight leading-tight max-w-[280px] mx-auto">
                             {cert.title}
                         </h4>
-                        <p class="text-[10px] text-gray-400 italic leading-none font-medium">
+                        <p class="text-[11px] text-gray-500 font-bold uppercase tracking-[0.15em] leading-none">
                             {cert.issuer}
                         </p>
                     </div>
@@ -105,34 +107,65 @@ const certs = [
 </section>
 
 <script>
-    function initCertSlider() {
-        const slides = document.querySelectorAll('.cert-slide');
-        const indicators = document.querySelectorAll('.indicator');
+    function setupSlider() {
+        const slider = document.getElementById('cert-slider');
+        const items = document.querySelectorAll('.cert-item');
+        const dots = document.querySelectorAll('.cert-dot');
         
-        if (slides.length === 0 || indicators.length === 0) return;
+        if (!slider || items.length === 0) return;
 
         let currentIndex = 0;
+        let isTransitioning = false;
 
-        function showNextSlide() {
-            slides[currentIndex].classList.remove('opacity-100', 'translate-y-0', 'scale-100', 'rotate-0');
-            slides[currentIndex].classList.add('opacity-0', 'translate-y-12', 'scale-90', 'rotate-[-5deg]', 'pointer-events-none');
+        function moveSlide() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            items[currentIndex].classList.remove('translate-x-0', 'opacity-100');
+            items[currentIndex].classList.add('-translate-x-full', 'opacity-0');
             
-            indicators[currentIndex].classList.remove('bg-black', 'w-4');
-            indicators[currentIndex].classList.add('bg-gray-200', 'w-1');
+            dots[currentIndex].classList.remove('bg-black', 'w-6');
+            dots[currentIndex].classList.add('bg-gray-200', 'w-1.5');
 
-            currentIndex = (currentIndex + 1) % slides.length;
+            const prevIndex = currentIndex;
+            currentIndex = (currentIndex + 1) % items.length;
 
-            slides[currentIndex].classList.remove('opacity-0', 'translate-y-12', 'scale-90', 'rotate-[-5deg]', 'pointer-events-none');
-            slides[currentIndex].classList.add('opacity-100', 'translate-y-0', 'scale-100', 'rotate-0');
+            const nextSlide = items[currentIndex] as HTMLElement;
+            nextSlide.style.transition = 'none';
+            nextSlide.classList.remove('-translate-x-full', 'opacity-0');
+            nextSlide.classList.add('translate-x-full');
             
-            indicators[currentIndex].classList.remove('bg-gray-200', 'w-1');
-            indicators[currentIndex].classList.add('bg-black', 'w-4');
+            void nextSlide.offsetWidth;
+
+            nextSlide.style.transition = '';
+            nextSlide.classList.remove('translate-x-full');
+            nextSlide.classList.add('translate-x-0', 'opacity-100');
+            
+            dots[currentIndex].classList.remove('bg-gray-200', 'w-1.5');
+            dots[currentIndex].classList.add('bg-black', 'w-6');
+
+            setTimeout(() => {
+                isTransitioning = false;
+                if (items[prevIndex]) {
+                    const oldSlide = items[prevIndex] as HTMLElement;
+                    oldSlide.style.transition = 'none';
+                    oldSlide.classList.remove('-translate-x-full');
+                    oldSlide.classList.add('translate-x-full');
+                }
+            }, 700);
         }
 
-        const intervalId = setInterval(showNextSlide, 5000);
-        document.addEventListener('astro:before-swap', () => clearInterval(intervalId), { once: true });
+        let interval = setInterval(moveSlide, 6000);
+
+        slider.addEventListener('click', () => {
+            clearInterval(interval);
+            moveSlide();
+            interval = setInterval(moveSlide, 6000);
+        });
+
+        document.addEventListener('astro:before-swap', () => clearInterval(interval), { once: true });
     }
 
-    initCertSlider();
-    document.addEventListener('astro:after-swap', initCertSlider);
+    setupSlider();
+    document.addEventListener('astro:after-swap', setupSlider);
 </script>

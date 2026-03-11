@@ -4,21 +4,24 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import TechStack from '../components/TechStack.astro';
 import Projects from '../components/Projects.astro';
+import Gallery from '../components/Gallery.astro';
 import Experience from '../components/Experience.astro';
 import AnimatedCard from '../components/AnimatedCard.astro';
-import Certificates from '../components/Certificates.astro'; // [NEW IMPORT]
+import Certificates from '../components/Certificates.astro'; 
+import Recommendations from '../components/Recommendations.astro'; 
+import Footer from '../components/Footer.astro'; // Import Footer
 ---
 
 <Layout>
     <div class="max-w-7xl mx-auto px-6 py-12">
         <Header />
         
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
-            <div class="lg:col-span-8 space-y-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-4">
+            <div class="lg:col-span-8 space-y-12">
                 <Hero />
                 <TechStack />
                 <Projects />
+                <Gallery /> 
             </div>
 
             <div class="lg:col-span-4 space-y-12">
@@ -28,8 +31,11 @@ import Certificates from '../components/Certificates.astro'; // [NEW IMPORT]
                     </div>
                 </div>
                 <Experience />
-                <Certificates /> </div>
-            
+                <Certificates /> 
+                <Recommendations /> 
+            </div>
         </div>
+
+        <Footer />
     </div>
 </Layout>

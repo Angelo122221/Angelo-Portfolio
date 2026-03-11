@@ -1,0 +1,64 @@
+---
+const currentYear = new Date().getFullYear();
+
+const contacts = [
+    { name: "Facebook", url: "https://www.facebook.com/keith.angelo.elleso.2024", label: "FB / Keith Angelo" },
+    { name: "Email", url: "mailto:keithangelo.elleso03@gmail.com", label: "keithangelo.elleso03@gmail.com" },
+    { name: "Phone", url: "tel:09635600530", label: "+63 963 560 0530" }
+];
+---
+
+<footer class="w-full pt-4 pb-12">
+    <div class="relative bg-white border border-gray-100 rounded-[32px] p-8 shadow-[0_15px_45px_-10px_rgba(0,0,0,0.08)] overflow-hidden">
+        
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            
+            <div class="space-y-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 bg-gray-950 rounded flex items-center justify-center">
+                        <span class="text-white font-medium text-[10px]">K</span>
+                    </div>
+                    <span class="text-[13px] font-medium uppercase tracking-widest text-gray-900">
+                        Keith Angelo <span class="mx-2 text-gray-200">|</span> <span class="text-gray-400 font-normal">© {currentYear}</span>
+                    </span>
+                </div>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">
+                    Ozamiz City, Philippines
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-x-8 gap-y-4">
+                {contacts.map(contact => (
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[9px] font-medium text-gray-300 uppercase tracking-[0.2em]">{contact.name}</span>
+                        <a 
+                            href={contact.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-[11px] font-medium text-gray-600 hover:text-black transition-colors"
+                        >
+                            {contact.label}
+                        </a>
+                    </div>
+                ))}
+            </div>
+
+            <button 
+                id="back-to-top"
+                aria-label="Back to top"
+                class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-100 text-gray-400 hover:border-gray-900 hover:text-black transition-all active:scale-90"
+            >
+                <span class="text-xs">↑</span>
+            </button>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function initFooter() {
+        const btn = document.getElementById('back-to-top');
+        btn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+    initFooter();
+    document.addEventListener('astro:after-swap', initFooter);
+</script>

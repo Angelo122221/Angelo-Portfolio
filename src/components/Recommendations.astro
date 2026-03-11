@@ -1,0 +1,73 @@
+---
+const recommendations = [
+    {
+        name: "Quirino Lonsagon",
+        role: "IP Department @ DEPED",
+        content: "Keith is an exceptional developer who consistently delivers high-quality products. His ability to bridge the gap between Communicating and Full-Stack development was crucial to our success.",
+        avatar: "/assets/img/verified.png"
+    },
+    {
+        name: "Jeo Mayku Tecson",
+        role: "Project Manager @ SubanenGo",
+        content: "Working with Keith was a seamless experience. He handles complex system architectures with ease and always meets deadlines with professional-grade documentation.",
+        avatar: "/assets/img/verified.png"
+    }
+];
+---
+
+<section class="space-y-4 pt-4">
+    <div class="flex items-center gap-3">
+        <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Recommendations</h3>
+        <div class="h-[1px] flex-grow bg-gray-100"></div>
+    </div>
+
+    <div class="relative bg-white border border-gray-100 p-6 rounded-2xl shadow-sm h-[220px] overflow-hidden group">
+        <div class="absolute -top-4 -right-2 text-gray-100 opacity-20 text-8xl font-serif pointer-events-none select-none">
+            "
+        </div>
+
+        <div class="relative h-full">
+            {recommendations.map((rec, index) => (
+                <div class={`rec-slide absolute inset-0 flex flex-col justify-between transition-all duration-1000 ease-in-out ${index === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
+                    
+                    <p class="text-gray-600 text-[12px] leading-relaxed italic font-medium">
+                        "{rec.content}"
+                    </p>
+
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-50">
+                        <div class="w-8 h-8 rounded-full bg-gray-50 border border-gray-100 flex-shrink-0 p-1">
+                            <img src={rec.avatar} alt={rec.name} class="w-full h-full object-contain" />
+                        </div>
+                        <div>
+                            <h4 class="text-[11px] font-black uppercase tracking-tight text-gray-900">{rec.name}</h4>
+                            <p class="text-[9px] text-[#65a30d] font-bold uppercase tracking-wider">{rec.role}</p>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<script>
+    const recSlides = document.querySelectorAll('.rec-slide');
+    let currentRecIndex = 0;
+
+    function nextRecommendation() {
+        if (recSlides.length < 2) return;
+
+        // Hide current
+        recSlides[currentRecIndex].classList.replace('opacity-100', 'opacity-0');
+        recSlides[currentRecIndex].classList.add('translate-y-8', 'pointer-events-none');
+
+        // Increment
+        currentRecIndex = (currentRecIndex + 1) % recSlides.length;
+
+        // Show next
+        recSlides[currentRecIndex].classList.replace('opacity-0', 'opacity-100');
+        recSlides[currentRecIndex].classList.remove('translate-y-8', 'pointer-events-none');
+    }
+
+    // Change every 6 seconds (slightly slower than certificates to allow reading)
+    setInterval(nextRecommendation, 6000);
+</script>

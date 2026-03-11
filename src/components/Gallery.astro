@@ -1,0 +1,126 @@
+---
+const galleryItems = [
+    { image: "/assets/gallery/event1.png", title: "Team Collaboration" },
+    { image: "/assets/gallery/event2.png", title: "Project Presentation" },
+    { image: "/assets/gallery/event3.png", title: "SubanenGo Team" },
+    { image: "/assets/gallery/event5.png", title: "Internship" },
+    { image: "/assets/gallery/event7.png", title: "Innovation Jam Award" },
+    { image: "/assets/gallery/event8.png", title: "RSTW 2025 Pitching" },
+    { image: "/assets/gallery/event9.png", title: "System Defense" }
+];
+---
+
+<div class="w-full">
+    <section class="space-y-4">
+        <div class="flex items-center gap-4">
+            <h3 class="ttext-lg font-bold uppercase tracking-tighter leading-none">Gallery</h3>
+            <div class="h-[2px] flex-grow bg-gray-100 rounded-full"></div>
+        </div>
+
+        <div 
+            id="gallery-slider"
+            class="relative bg-white border border-gray-100 rounded-[32px] p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col gap-4 cursor-pointer active:scale-[0.99] transition-all duration-300 select-none"
+        >
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 pointer-events-none">
+                {galleryItems.map((item, index) => (
+                    <div 
+                        class={`gallery-slide absolute inset-0 transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] 
+                        ${index === 0 ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}
+                    >
+                        <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            class="w-full h-full object-cover"
+                            loading={index === 0 ? "eager" : "lazy"}
+                        />
+                    </div>
+                ))}
+            </div>
+
+            <div class="flex items-center justify-between px-2">
+                <span id="gallery-label" class="text-[10px] font-black uppercase tracking-widest text-gray-950">
+                    {galleryItems[0].title}
+                </span>
+                <div class="flex gap-1">
+                    {galleryItems.map((_, i) => (
+                        <div class={`gallery-indicator h-1 rounded-full transition-all duration-500 ${i === 0 ? 'bg-black w-4' : 'bg-gray-200 w-1'}`}></div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function setupGallery() {
+        const slider = document.getElementById('gallery-slider');
+        const slides = document.querySelectorAll('.gallery-slide');
+        const indicators = document.querySelectorAll('.gallery-indicator');
+        const label = document.getElementById('gallery-label');
+        
+        // Sync labels with frontmatter
+        const titles = [
+            "Team Collaboration", "Project Presentation", "SubanenGo Team", 
+            "Community Fieldwork", "Internship", "Event Coverage", 
+            "Innovation Jam Award", "RSTW 2025 Pitching", "System Defense"
+        ];
+        
+        let currentIndex = 0;
+        // Using 'any' or number avoids the "Cannot find namespace NodeJS" error in strict mode
+        let intervalId: any; 
+
+        if (slides.length === 0 || !slider) return;
+
+        function showNext() {
+            // 1. Current Slide Exits to the Right
+            slides[currentIndex].classList.remove('translate-x-0', 'opacity-100');
+            slides[currentIndex].classList.add('translate-x-full', 'opacity-0');
+            
+            indicators[currentIndex].classList.remove('bg-black', 'w-4');
+            indicators[currentIndex].classList.add('bg-gray-200', 'w-1');
+
+            // 2. Increment Index
+            currentIndex = (currentIndex + 1) % slides.length;
+
+            // 3. Prepare Next Slide at the Left (off-screen)
+            const nextSlide = slides[currentIndex] as HTMLElement;
+            nextSlide.style.transition = 'none';
+            nextSlide.classList.remove('translate-x-full', 'opacity-0');
+            nextSlide.classList.add('-translate-x-full');
+            
+            // Force a browser reflow so the transition above is applied instantly
+            void nextSlide.offsetWidth;
+
+            // 4. Slide into View (Moving Right)
+            nextSlide.style.transition = '';
+            nextSlide.classList.remove('-translate-x-full');
+            nextSlide.classList.add('translate-x-0', 'opacity-100');
+
+            // 5. Update UI Labels & Dots
+            if (label) label.textContent = titles[currentIndex];
+            indicators[currentIndex].classList.remove('bg-gray-200', 'w-1');
+            indicators[currentIndex].classList.add('bg-black', 'w-4');
+        }
+
+        function startAutoSlide() {
+            clearInterval(intervalId);
+            intervalId = setInterval(showNext, 8000);
+        }
+
+        // Click to Advance
+        slider.addEventListener('click', () => {
+            showNext();
+            startAutoSlide(); // Reset the 8s timer on manual click
+        });
+
+        // Initialize
+        startAutoSlide();
+
+        // Cleanup for Astro View Transitions
+        document.addEventListener('astro:before-swap', () => clearInterval(intervalId), { once: true });
+    }
+
+    // Run on initial load and after every page swap
+    setupGallery();
+    document.addEventListener('astro:after-swap', setupGallery);
+</script>
